@@ -58,6 +58,9 @@ BOOT_LOADER ?= $(ESP_ROOT)/bootloaders/eboot/eboot.elf
 # Standard build logic and values
 #====================================================================================
 
+TERM_COM ?= minicom
+TERM_ARGS ?= -D $(UPLOAD_PORT)
+
 START_TIME := $(shell perl -e "print time();")
 
 # Utility functions
@@ -317,6 +320,9 @@ list_flash_defs:
 	echo === Memory configurations for board: $(BOARD) ===
 	cat $(ESP_ROOT)/boards.txt | perl -e 'while (<>) { if (/^$(BOARD)\.$(FLASH_DEF_MATCH)/){ print sprintf("%-10s %s\n", $$1,$$2);} }'
 
+term:
+	$(TERM_COM) $(TERM_ARGS)
+
 help:
 	echo
 	echo "Generic makefile for building Arduino esp8266 and esp32 projects"
@@ -338,6 +344,7 @@ help:
 	echo "                         Params: FS_DUMP_DIR"
 	echo "  erase_flash          Erase the whole flash"
 	echo "  list_lib             Show a list of used library files and include paths"
+	echo "  monitor              Open a terminal on the project"
 	echo "Configurable parameters:"
 	echo "  SKETCH               Main source file"
 	echo "                         If not specified the first sketch in current"
