@@ -59,7 +59,7 @@ BOOT_LOADER ?= $(ESP_ROOT)/bootloaders/eboot/eboot.elf
 #====================================================================================
 
 TERM_COM ?= minicom
-TERM_ARGS ?= -D $(UPLOAD_PORT)
+TERM_ARGS ?= -b $(UPLOAD_PORT) -D $(UPLOAD_PORT)
 
 START_TIME := $(shell perl -e "print time();")
 
@@ -320,7 +320,7 @@ list_flash_defs:
 	echo === Memory configurations for board: $(BOARD) ===
 	cat $(ESP_ROOT)/boards.txt | perl -e 'while (<>) { if (/^$(BOARD)\.$(FLASH_DEF_MATCH)/){ print sprintf("%-10s %s\n", $$1,$$2);} }'
 
-term:
+monitor:
 	$(TERM_COM) $(TERM_ARGS)
 
 help:
